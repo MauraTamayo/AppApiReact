@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import GlobalContext from '../../Context/GlobalContext';
 import MUICard from '../Cards/MUICard';
 import apiRM from '../api/ApiFunctions'
 import styled from 'styled-components'
-
 
 const ContainerMUICards = styled.div`
   display: flex;
@@ -13,6 +13,7 @@ const ContainerMUICards = styled.div`
 `;
 
 function Home() {
+  const {favoriteList} = useContext(GlobalContext);
   const [characters, setCharacters] = useState(null)
 
   useEffect(() => {
@@ -31,14 +32,14 @@ function Home() {
     })
   }, [])
 
-/*   useEffect(() => {
-    characters&&console.log(characters)
-  }, [characters]) */
+  useEffect(() => {
+  favoriteList&&console.log(favoriteList)
+  }, [favoriteList])
 
   return (
     <ContainerMUICards>
         {characters&&characters.map((elem,index)=>(
-          <MUICard key={index} dataCard={elem}/>
+          <MUICard key={index} dataCard={elem}  />
         ))}
       </ContainerMUICards>
   );

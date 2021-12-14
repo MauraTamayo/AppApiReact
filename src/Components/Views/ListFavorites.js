@@ -1,40 +1,40 @@
 import React, { useState , useEffect} from 'react'
-import apiRM from '../api/ApiFunctions'
 import {TableContainer, Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveRedEyeSharpIcon from '@mui/icons-material/RemoveRedEyeSharp';
 import UpdateSharpIcon from '@mui/icons-material/UpdateSharp';
 
-
-
-function ListCharacters() {
+export default function DataGridProDemo() {
   const [data, setData] = useState([])
-  
-  useEffect(() => {
-    apiRM.getCharacters().then(async res =>{
-      const chars = res.data.results
+
+  const getFavorites = async ()=> {
+    let chars = JSON.parse(localStorage.getItem("favorites"))
       let toSave = []
-      await chars.map(elem=>{
+      await chars?.map(elem=>{
         toSave.push({
-          title:elem.name,
-          species:elem.species,
-          origin:elem.origin.name,
-          location:elem.location.name
+          title:elem.title,
+          species:elem.description,
+          origin:"unknow",
+          location:"unknow"
         })
       })
       setData(toSave)
-    })
+  }
+  
+  useEffect(() => {
+    getFavorites()
   }, [])
 
-  const HandelDelete = (index) =>{
-    let arr = [...data]
-    arr.splice(index,index)
-    setData(arr)
-  }
-
-  const HandelWatch = (index) =>{
-
-    
+  const handleDeleteFavorite = (index) => {
+    let chars = JSON.parse(localStorage.getItem("favorites"))
+    if(chars.length === 1){
+      localStorage.removeItem("favorites")
+    }else{
+      console.log(index)
+      chars.splice(index,1)
+      localStorage.setItem("favorites", JSON.stringify(chars))
+    }
+    return getFavorites()
   }
 
   return (
@@ -53,22 +53,20 @@ function ListCharacters() {
             </TableRow>
           </TableHead>
           <TableBody>
-          {data.map((elem,index)=>(
+          {data?.map((elem,index)=>(
             <TableRow key={index}>
-              <TableCell><RemoveRedEyeSharpIcon onClick={() => HandelDelete(index)}/></TableCell>
+              <TableCell><RemoveRedEyeSharpIcon onClick={() => {}}/></TableCell>
               <TableCell>{elem.title}</TableCell>
               <TableCell>{elem.species}</TableCell>
               <TableCell>{elem.origin}</TableCell>
               <TableCell>{elem.location}</TableCell>
-              <TableCell><DeleteIcon onClick={() => HandelDelete(index)}/><UpdateSharpIcon/>
+              <TableCell><DeleteIcon onClick={() =>handleDeleteFavorite(index)}/><UpdateSharpIcon/>
               </TableCell>
             </TableRow>
           ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
-  )
+      </div>
+  );
 }
-
-export default ListCharacters

@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import styled from "styled-components";
 
-const pages = [{title:"listado",link:"/list"}, {title:"Home", link:"/"}];
+const pages = [{title:"Home", link:"/"}, {title:"listado",link:"/list"}, {title:"Favoritos", link:"/listFavorites"}];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const AppBarStyled = styled(AppBar)`

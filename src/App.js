@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import "./App.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import RoutesGlobal from "./Components/Routes/RoutesGlobal";
 import Layout from "./Components/Content/Layout";
+import GlobalContext from "./Context/GlobalContext";
 
 const theme = createTheme({
   palette: {
@@ -18,13 +19,23 @@ const theme = createTheme({
 });
 
 
+
 function App() {
+  const [favoriteList, setFavoriteList] = useState([])
+
+  let value = {
+    favoriteList:favoriteList,
+    setFavoriteList:setFavoriteList
+  }
+  
   return (
+    <GlobalContext.Provider value={value}>
     <ThemeProvider theme={theme}>
       <Layout>
         <RoutesGlobal/>
       </Layout>
     </ThemeProvider>
+    </GlobalContext.Provider>
   );
 }
 
